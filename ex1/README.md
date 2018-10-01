@@ -11,12 +11,12 @@ You can find more information on [this website](http://www.uppaal.org).
 
 ## Major Difficulties
 
-In this experiment, the major difficulties turns out the punctuation chosen. Question marks and exclamation marks is easy to confuse. Question marks used to represents "signaling", exclamations mean "receiving" on the contrary. We need to think about the model meaning and choose the correct marks.
+In this experiment, the major difficulties turn out that the punctuations choice. Question marks and exclamation marks are easy to confuse. Question marks used to represents "signaling", while exclamations mean "receiving" on the contrary. We need to think about the model meaning and choose the correct marks.
 
-Another challenge is the declaration file implementation. Take care of grammar usage, otherwise you won't run a simulation successfully.
+Another challenge is the declaration files implementation. Take care of grammar usage, otherwise you won't run a simulation successfully.
 
 
 ## Files
 
-The beverage.xml and user.xml contains implementations of beverage machine system and light control system, more info please refer to pdf file.
+The beverage.xml and user.xml contain implementations of beverage machine system and light control system, more info please refer to pdf file.
 
