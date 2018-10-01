@@ -13,7 +13,7 @@ You can find more information on [this website](http://www.uppaal.org).
 
 In this experiment, the major difficulties turns out the punctuation chosen. Question marks and exclamation marks is easy to confuse. Question marks used to represents "signaling", exclamations mean "receiving" on the contrary. We need to think about the model meaning and choose the correct marks.
 
-Another challenge is the declaration file implementation, take care of grammar usage, otherwise you won't run a simulation successfully.
+Another challenge is the declaration file implementation. Take care of grammar usage, otherwise you won't run a simulation successfully.
 
 
 ## Files
