@@ -1,6 +1,6 @@
 ## 1
 
-Ladies and gentlemen, thanks for your attending. We are group 14, and we are going to model a advanced gear controller using UPPAAL. As we have enter an era of industrialization, modern automobiles are no longer strange to us, and even every family has a car. However, have you ever thought about how the gears change, how does the underlying components interact, or how to use knowledge we obtain in real-time system course to implement it? Today, we will satisfy your curiosity by using UPPAAL, a powerful tool kit, to describe our gear controller design. Of course, to prove the correctness of the design, we will show our verification results in the last. Considering we are the first group of presentation, there will inevitably be some flaws in our work. We hope that you can listen patiently, point them out and provide us with valuable suggestions.
+Ladies and gentlemen, thanks for your attending. We are group 14. Today, we are going to show our work of a advanced gear control system model using UPPAAL. Nowadays, as we have enter an era of industrialization, modern automobiles are no longer strange to us, and even every family has a car. However, have you ever thought about how the gears change, how does the underlying components interact, or how to implement it by using knowledge we obtain in real-time system course? Today, we will satisfy your curiosity by using UPPAAL, a powerful tool kit, to describe our gear controller design. Of course, to prove the correctness of the design, we will show our verification results later. Considering we are the first group of presentation, there will inevitably be some flaws in our work. We hope that you can listen patiently, point them out and provide us with valuable suggestions.
 
 ## 2
 
@@ -16,7 +16,7 @@ The gear controller changes gears by requesting service provided by the componen
 
 ## 5
 
-The system structure are demostrated on this slide and you are able to view it on paper, so I'm not going to show it in detail.
+The system structure are demostrated on this slide and you are able to view it on paper, so I'm not going to show it in detail because of the time limit.
 
 ## 6
 
