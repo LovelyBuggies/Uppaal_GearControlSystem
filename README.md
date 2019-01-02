@@ -32,11 +32,15 @@ The bounded response time property puts forward a requirement for the system to 
 
 ## Methods
 
-Fig. 1 shows the whole system design. This design is surprisingly perfect for implementing the gear controller system while satisfying the bounded response time properties. This section will give a detailed illustration about bounded response time properties implementation and the principle of deadlock avoidance.
+Fig. 1 is a simplified version of our system design. By adding some edges and variables, our design is surprisingly perfect for implementing the gear controller system while satisfying the bounded response time properties. 
 
 ### Project Experiment
 
-In order to 
+A detailed illustration about bounded response time properties implementation is given using example of *$GearBox@ErrorNeu \leadsto _{200}GearControl@GNeuError$*. 
+
+A state transition in Gear Box from $Opening$ to $ErrorNeu$ is reflected in upper layer by the state transition towards $GErrorNeu$ in Gear Controller. In order to verified such property, our extension work is to make sure that once the Gear Box state transition is complete, the Gear Controller state transition is going to be finished within 200 milliseconds. We introduce a boolean variable $v_6$ and a corresponding timer $c_6$. Using $v_6$ and $\lnot v_6$ as a guard of $ErrorNeu$, we copy the existing edge and assign operation $v_6:=true, c_6=0$ to the reset edge. After that, $v_6:=false$ reset is ready for all edges towards $GNeuError$ in Gear Controller. 
+
+When the system works, this design will ensure time-limited state transitions. In the example above, when the model goes into $ErrorNeu$ location, $v_6=0,c_6=0$. Then, $v_6=true$ until the model goes into $GNeuError$ location. Once $v_6=true$, we can derive that $c_6\le 200$ during this peroid. By this way, $Inv(v_6\Rightarrow c_6 \le 200)$ is verified. Similarly, we use this method to ensure the Real-time transition of the Gear Controller system (low transition delay).
 
 ### Experience
 
