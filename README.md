@@ -32,9 +32,11 @@ The bounded response time property puts forward a requirement for the system to 
 
 ## Methods
 
+Fig. 1 shows the whole system design. This design is surprisingly perfect for implementing the gear controller system while satisfying the bounded response time properties. This section will give a detailed illustration about bounded response time properties implementation and the principle of deadlock avoidance.
+
 ### Project Experiment
 
-
+In order to 
 
 ### Experience
 
