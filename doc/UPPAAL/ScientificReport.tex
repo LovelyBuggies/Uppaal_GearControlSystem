@@ -1,0 +1,174 @@
+\documentclass[a4paper]{article}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{indentfirst}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts,amssymb}
+\usepackage[top=2cm,left=2.22cm,right=2.22cm,bottom=2.6cm]{geometry}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\renewcommand{\baselinestretch}{1.1}
+\setlength{\parskip}{0.5\baselineskip}
+
+
+\begin{document}
+\begin{center}
+\Huge\textbf{Modeling Gear Control System \\}
+\vspace{1mm}
+\Huge\textbf{using U\Large{PPAAL}\huge*}
+\end{center}
+\vspace{3mm}
+
+\vspace{2mm}
+\begin{center}
+\large\textbf{16340154 -- Nino Lau -- Group 14}\\
+\end{center}
+
+\begin{center}
+\small{School of Data and Computer Science, Sun Yat-sen University}
+\end{center}
+
+\begin{center}
+\textit{Dec. $22$\small nd \textit, 2018\\}
+\end{center}
+\vspace{3mm}
+
+
+\noindent \HRule
+\vspace{2.5mm} \\
+\large{
+\Large{$\mathbb{I}$}\large n the control system of modern cars, the ubiquious nature of gear-shifting operation has driven us to explore an effective method to check the correctness of the model. Inspired by Magnus Lindahl \emph{et al.}, we consider using \textbf{U\small{PPAAL}\large*}, a powerful tool kit providing reachability analysis, to describe our gear control system. Our verification results prove the correctness of the full design, without any additional effort to implement the existing model-checker.}
+\vspace{2mm} \\
+\HRule
+
+%%
+\vspace{6mm}
+\begin{center}
+\LARGE\textbf{I. Introduction} \\
+\end{center}
+\vspace{2mm}
+
+\large{Aim to design and analyze the industrial gear control system, we conducted our experiment using \textbf{U\small{PPAAL}\large*} reachablity analysis in combination with a certain syntactical manipulation. This section will show some key information about our system design.}
+
+\vspace{2mm}
+\begin{center}
+\large\textbf{System Design} \\
+\end{center}
+
+\large{
+The gear control \textsf{Interface} provides shared boundary for information exchange between gear control system and its users, receiving service requests and keeping information about the current status.
+
+The gear-requests from the users are delivered over a communication network to \textsf{GearControl}. The \textsf{GearControl} accomplishes a zero torque transmission, preparing to release the currently set gear. Then it achieves synchronous speed over the transmission and sets the new gear. Once the gear is set, the engine torque is increased back to previous level. In this way, the gear change is achieved. 
+
+Gears are changed by requesting services provided by the components in their environment. Specifically, the \textsf{GearBox} is responsible for setting or releasing a gear in the given time limit; the \textsf{Clutch} can open or close, used when the zero torque or synchronous speed not possible; the \textsf{Engine} offers three modes of torque control, which have different angular accelerations to deal with various conditions. }
+
+\vspace{2mm}
+\begin{center}
+\large\textbf{Lock Free} \\
+\end{center}
+
+\large{
+A dead-lock is a state in which each member of a group of actions, is waiting for some other member to release a lock. Generally, dead-lock is generated when such specific conditions \textit{i.e.} mutual exclusion, hold and wait, no preemption, circular wait are met.
+
+Component with a unrecoverable error cannot recover its error by itself. In this system, unrecoverable error happens in \texttt{COpenError}, \texttt{CCloseError}, \texttt{GNeuError} and \texttt{GSetError} location, because states have no where to go in these locations. While recoverable error is detected in the location \texttt{CheckTorque} and \texttt{CheckSynSpeed}, meaning that we do have possibility to recover the errors in these locations. In our implementation, integer variables \texttt{ErrStat} and \texttt{UseCase} are used to represent unrecoverable and recoverable error types. Our design ensures that dead-lock and live-lock are free in our design, and the functionality and predictability requirements are both successfully satisfied.}
+
+
+\vspace{2mm}
+\begin{center}
+\large\textbf{Real-time Transition} \\
+\end{center}
+
+\large{
+The bounded response time property puts forward a requirement for the system to respond in a specific time to ensure the safe operation of the system. In the bounded response time properties formula $f_1 \leadsto_{\le T} f_2$ , $ f_1, f_2$ are boolean combinations of atomic propositions representing request and response respectively. $f$ is an invariant property used to express safety properties, a system satisfy $Inv(f)$ if all its reachable states satisfy $f$. Interestingly, $f_1 \leadsto_{\le T} f_2$ is tentatively closed to the strong until operator in \normalsize{LTL }\large with an additional time bound (but $f_1$ does not need to be continuously true here), meaning that $f_2$ must be true within $T$ when $f_1$ is true. Shown in \normalsize{\textbf{Experiment}}\large, with the addition of boolean variables $v_n$ and their corresponding clocks $c_n$, all of the bounded response time properties are fully satisfied by our design.}
+
+
+%%
+\vspace{5mm}
+\begin{center}
+\LARGE\textbf{II. Method} \\
+\end{center}
+\vspace{2mm}
+
+
+
+
+\large{
+To verify bounded response time properties, we introduce some boolean variables and corresponding timers to provide reset options. After verification, we found that our system fully satisfies bounded response time properties, that is, state transitions in our system are real-time (with little time delay).}
+
+%%%%%
+\vspace{2mm}
+\begin{center}
+\large\textbf{Project Experiment} \\
+\end{center}
+
+\large{
+A detailed illustration about bounded response time properties implementation is given using the example in original paper \textbf{Table. 2} (6).}
+
+\begin{center}
+    $GearBox@ErrorNeu \leadsto _{\le 200}GearControl@GNeuError$
+\end{center}
+
+\large{A state transition in \textsf{GearBox} from \texttt{Opening} to \texttt{ErrorNeu} is reflected in upper layer by the state transition towards \texttt{GNeuError} in \textsf{GearControl}. In order to verified such property, our extension work is to make sure that once the \textsf{GearBox} state transition is complete, the \textsf{GearControl} state transition is going to be finished within 200 milliseconds. Here, we introduce a boolean variable $v_6$ and a corresponding timer $c_6$ into our design. Using $v_6$ and $\lnot v_6$ as a guard of \texttt{ErrorNeu}, we copy the existing edge and assign operation $v_6:=true, c_6=0$ to the reset edge. After that, $v_6:=false$ is set for all edges towards \texttt{GNeuError} in \textsf{GearControl}. 
+
+When the system works, this design will ensure time-limited state transitions. In the example above, our goal is to verify \texttt{Inv}$(v_6\Rightarrow c_6 \le 200)$. when the model goes into \texttt{ErrorNeu} location, $v_6=0,c_6=0$. Then, $v_6=true$ until the model goes into \texttt{GNeuError} location. Once $v_6=true$, we can infer that $c_6\le 200$ during this period. 
+
+It is worth noting that invariant condition like \texttt{Inv}$(v_6\Rightarrow c_6 \le 200)$ is not the only method to verify bounded response time properties. After referring to some other papers and studies, we found that we can also verify bounded response time properties in another form like  \texttt{sup(condition):variable}. In other words, it is equivalent to use \texttt{sup($v_6$):$c_6$} in this instance, which means that $v_6=true$ implies $c_6 \le$ \normalsize{UP} \large. Verification result gives an upper bound (200 msec) for timer $c_6$ as expected. Considering that there are only upper bounds for transition delay (no lower bounds, \textit{i.e. }\small{LOW}\large), no verification form like \texttt{inf(condition):variable} are involved in our design.
+
+Similarly, we use these methods to ensure the other real-time transitions in the gear control system.}
+
+
+
+%%%%%
+\vspace{2mm}
+\begin{center}
+\large\textbf{Experience and Lesson} \\
+\end{center}
+
+\large{
+This experiment brings us many ideas and inspirations. \textbf{Definition 4.} symbolizes the definition of states and their transitions of a real-time systems. This provides us new ideas to build automaton from atomic propositions and data variables to trace formula. \textbf{Section 6.2.} uses bounded response time properties to describe requirements in the whole gear control system, which leads us to think about how to solve problems with real-time software thinking. \textbf{Fig. 3.} creates a decorated version of automaton, opening up a new road for us to consider how to verify the synchronization of various components in a system. 
+
+Apart from the knowledge level, this practical training also bring me a new understanding of teamwork: use my own actions to inspire instead of complaining; accept other works of very different styles; establish common goals although everyone has different focus...
+
+To sum up, this practical training on implementing software system not only enables us to have a deeper understanding of the knowledge we have learned in our course, but also enables us to get to know how each part works, how to formulate practical problems, how to design verification and so on.}
+
+%%
+\vspace{5mm}
+\begin{center}
+\LARGE\textbf{III. Conclusion} \\
+\end{center}
+\vspace{2mm}
+
+\large{
+We have implemented an industrial case of gear control system design. The reachability analysis function of \textbf{U\small{PPAAL}\large*} tool kit is utilized to ensure that our system meets the performance, predictability, functionality and error detection requirements. Through this experiment, we put the knowledge into practice, and our cognition of real-time software system is strengthened.}
+
+
+%%
+\vspace{5mm}
+\begin{center}
+\LARGE\textbf{IV. Acknowledgement} \\
+\end{center}
+\vspace{.5mm}
+
+\begin{itemize} \item{First and foremost, I would like to show my deepest gratitude to my teacher, professor \textit{Kangeu}, who has provided us with valuable theoretical guidance of real-time system. Without her enlightening instruction, impressive kindness and patience, we could never have completed our projects. Her keen and vigorous academic observation enlightens me not only in this thesis but also in my future study.}
+\item{My sincere appreciation also goes to my \textit{teammates} in our group. We got along in harmony, accomplished tasks together, and each brought out his own strengths. All of these make this teamwork-experience valuable.}
+\end{itemize}
+
+%%
+\vspace{5mm}
+\begin{center}
+\LARGE\textbf{V. Resources} \\
+\end{center}
+\vspace{1mm}
+
+\normalsize\noindent{
+\large{V}\normalsize iew the full implementation on my \textsf{GitHub}:
+\underline{\small\texttt{{https://github.com/LovelyBuggies/Uppaal\_GearControlSystem}}}\large.
+}
+
+
+\end{document}

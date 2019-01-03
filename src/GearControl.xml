@@ -26,9 +26,7 @@ int[0,4] ErrStat;
 // auxiliary variables
 bool v1, v2, v3, v4, v5, v6, v15, v16;
 clock c1, c2, c3, c4, c5, c6, c15, c16;
-bool f1, f2, f15, f16;
-
-</declaration>
+bool f1, f2, f15, f16;</declaration>
 	<template>
 		<name x="5" y="5">Interface</name>
 		<declaration>// Place local declarations here.</declaration>
@@ -336,6 +334,13 @@ clock SysTimer, GCTimer;</declaration>
 		</location>
 		<init ref="id43"/>
 		<transition>
+			<source ref="id43"/>
+			<target ref="id42"/>
+			<label kind="synchronisation" x="-289" y="-722">ReqNewGear?</label>
+			<label kind="assignment" x="-289" y="-705">SysTimer:=0</label>
+			<nail x="-256" y="-633"/>
+		</transition>
+		<transition>
 			<source ref="id24"/>
 			<target ref="id26"/>
 			<label kind="guard" x="272" y="604">GCTimer&gt;300 and GCTimer&lt;=350</label>
@@ -351,8 +356,8 @@ clock SysTimer, GCTimer;</declaration>
 		<transition>
 			<source ref="id22"/>
 			<target ref="id21"/>
-			<label kind="guard" x="145" y="833">GCTimer&gt;150 and GCTimer&lt;=200</label>
-			<label kind="assignment" x="187" y="859">v3:=false</label>
+			<label kind="guard" x="170" y="841">GCTimer&gt;150 and GCTimer&lt;=200</label>
+			<label kind="assignment" x="212" y="858">v3:=false</label>
 			<nail x="204" y="901"/>
 		</transition>
 		<transition>
@@ -395,8 +400,8 @@ v16 = v16? !(ErrStat == 0 &amp;&amp; UseCase == 0) : v16</label>
 		<transition>
 			<source ref="id19"/>
 			<target ref="id22"/>
-			<label kind="synchronisation" x="272" y="757">CloseClutch!</label>
-			<label kind="assignment" x="281" y="774">GCTimer:=0</label>
+			<label kind="synchronisation" x="246" y="739">CloseClutch!</label>
+			<label kind="assignment" x="246" y="756">GCTimer:=0</label>
 		</transition>
 		<transition>
 			<source ref="id22"/>
@@ -444,7 +449,7 @@ v16 = v16? !(ErrStat == 0 &amp;&amp; UseCase == 0) : v16</label>
 		<transition>
 			<source ref="id28"/>
 			<target ref="id30"/>
-			<label kind="guard" x="349" y="0">GCTimer&gt;200 and GCTimer&lt;= 250</label>
+			<label kind="guard" x="357" y="8">GCTimer&gt;200 and GCTimer&lt;= 250</label>
 			<label kind="assignment" x="434" y="26">v6:=false</label>
 		</transition>
 		<transition>
@@ -828,7 +833,7 @@ clock GBTimer;
 		<transition>
 			<source ref="id63"/>
 			<target ref="id61"/>
-			<label kind="guard" x="178" y="93">GBTimer&gt;200 and not v6</label>
+			<label kind="guard" x="187" y="93">GBTimer&gt;200 and not v6</label>
 			<label kind="assignment" x="238" y="110">ErrStat:=4,
 c6:=0,
 v6:=true,
@@ -1082,6 +1087,60 @@ system interface, control, engine, clutch, gearbox;
 			<formula>E&lt;&gt; v16 imply c16 &gt; 899
 			</formula>
 			<comment>requirement  16
+			</comment>
+		</query>
+		<query>
+			<formula>A[] (deadlock imply ErrStat != 0)
+			</formula>
+			<comment>deadlock free
+			</comment>
+		</query>
+		<query>
+			<formula>sup{v1}:c1
+			</formula>
+			<comment>sup requirement 1
+			</comment>
+		</query>
+		<query>
+			<formula>sup{v2}:c2
+			</formula>
+			<comment>sup requirement 2
+			</comment>
+		</query>
+		<query>
+			<formula>sup{v3}:c3
+			</formula>
+			<comment>sup requirement 3
+			</comment>
+		</query>
+		<query>
+			<formula>sup{v4}:c4
+			</formula>
+			<comment>sup requirement 4
+			</comment>
+		</query>
+		<query>
+			<formula>sup{v5}:c5
+			</formula>
+			<comment>sup requirement 5
+			</comment>
+		</query>
+		<query>
+			<formula>sup{v6}:c6
+			</formula>
+			<comment>sup requirement 6
+			</comment>
+		</query>
+		<query>
+			<formula>sup{v15}:c15
+			</formula>
+			<comment>sup requirement 15
+			</comment>
+		</query>
+		<query>
+			<formula>sup{v16}:c16
+			</formula>
+			<comment>sup requirement 16
 			</comment>
 		</query>
 	</queries>
