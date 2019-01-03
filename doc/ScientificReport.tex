@@ -10,7 +10,7 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{amsfonts,amssymb}
-\usepackage[top=2cm,left=2.22cm,right=2.22cm,bottom=2.6cm]{geometry}
+\usepackage[top=2cm,left=2.1cm,right=2.1cm,bottom=2.6cm]{geometry}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \renewcommand{\baselinestretch}{1.1}
 \setlength{\parskip}{0.5\baselineskip}
@@ -110,16 +110,16 @@ To verify bounded response time properties, we introduce some boolean variables 
 A detailed illustration about bounded response time properties implementation is given using the example in original paper \textbf{Table. 2} (6).}
 
 \begin{center}
-    $GearBox@ErrorNeu \leadsto _{\le 200}GearControl@GNeuError$
+\textsf{GearBox} @ \texttt{ErrorNeu} $\leadsto _{\le 200}$ \textsf{GearControl} @ \texttt{GNeuError}
 \end{center}
 
-\large{A state transition in \textsf{GearBox} from \texttt{Opening} to \texttt{ErrorNeu} is reflected in upper layer by the state transition towards \texttt{GNeuError} in \textsf{GearControl}. In order to verified such property, our extension work is to make sure that once the \textsf{GearBox} state transition is complete, the \textsf{GearControl} state transition is going to be finished within 200 milliseconds. Here, we introduce a boolean variable $v_6$ and a corresponding timer $c_6$ into our design. Using $v_6$ and $\lnot v_6$ as a guard of \texttt{ErrorNeu}, we copy the existing edge and assign operation $v_6:=true, c_6=0$ to the reset edge. After that, $v_6:=false$ is set for all edges towards \texttt{GNeuError} in \textsf{GearControl}. 
+\large{A state transition in \textsf{GearBox} from \texttt{Opening} to \texttt{ErrorNeu} is reflected in upper layer by the state transition towards \texttt{GNeuError} in \textsf{GearControl}. In order to verified such property, our extension work is to make sure that once the \textsf{GearBox} state transition is complete, the \textsf{GearControl} state transition is going to be finished within 200 milliseconds. 
 
-When the system works, this design will ensure time-limited state transitions. In the example above, our goal is to verify \texttt{Inv}$(v_6\Rightarrow c_6 \le 200)$. when the model goes into \texttt{ErrorNeu} location, $v_6=0,c_6=0$. Then, $v_6=true$ until the model goes into \texttt{GNeuError} location. Once $v_6=true$, we can infer that $c_6\le 200$ during this period. 
+Using invariant condition method to verify, we introduce a boolean variable $v_6$ and a corresponding timer $c_6$ into our design. Here, $v_6$ and $\lnot v_6$ serve as guards of \texttt{ErrorNeu}. We copy the existing edge and assign operation $v_6:=true, c_6=0$ to the reset edge. After that, $v_6:=false$ is set for all edges towards \texttt{GNeuError} in \textsf{GearControl}. When the system works, this design will ensure time-limited state transitions. In the example above, our goal is to verify \texttt{Inv}$(v_6\Rightarrow c_6 \le 200)$. when the model goes into \texttt{ErrorNeu} location, $v_6=0,c_6=0$. Then, $v_6=true$ until the model goes into \texttt{GNeuError} location. Once $v_6=true$, we can infer that $c_6\le 200$ during this period. 
 
-It is worth noting that invariant condition like \texttt{Inv}$(v_6\Rightarrow c_6 \le 200)$ is not the only method to verify bounded response time properties. After referring to some other papers and studies, we found that we can also verify bounded response time properties in another form like  \texttt{sup(condition):variable}. In other words, it is equivalent to use \texttt{sup($v_6$):$c_6$} in this instance, which means that $v_6=true$ implies $c_6 \le$ \normalsize{UP} \large. Verification result gives an upper bound (200 msec) for timer $c_6$ as expected. Considering that there are only upper bounds for transition delay (no lower bounds, \textit{i.e. }\small{LOW}\large), no verification form like \texttt{inf(condition):variable} are involved in our design.
+It is worth noting that invariant condition is not the only way to verify bounded response time properties. We found that we can also verify bounded response time properties in suprema formula formatted like \texttt{sup(condition):expression}. In other words, it is equivalent to use \texttt{sup($v_6$):$c_6$} in this instance, which means that $v_6=true$ implies $c_6 \le$ \normalsize{UP} \large. We add an edge from \texttt{GNeuError} to itself and add a timer $c_6$ on this self-edge. Verification result gives an upper bound (200 msec) for timer $c_6$ as expected. Considering that there are only upper bounds for transition delay (no lower bounds, \textit{i.e. }\small{LOW}\large), no verification form like \texttt{inf(condition):expression} are involved in our design.
 
-Similarly, we use these methods to ensure the other real-time transitions in the gear control system.}
+Similarly, we use these methods to ensure the other transitions are real-time in our system.}
 
 
 
@@ -130,7 +130,7 @@ Similarly, we use these methods to ensure the other real-time transitions in the
 \end{center}
 
 \large{
-This experiment brings us many ideas and inspirations. \textbf{Definition 4.} symbolizes the definition of states and their transitions of a real-time systems. This provides us new ideas to build automaton from atomic propositions and data variables to trace formula. \textbf{Section 6.2.} uses bounded response time properties to describe requirements in the whole gear control system, which leads us to think about how to solve problems with real-time software thinking. \textbf{Fig. 3.} creates a decorated version of automaton, opening up a new road for us to consider how to verify the synchronization of various components in a system. 
+This experiment brings us many ideas and inspirations. \textbf{Definition 4.} symbolizes the definition of states and their transitions of a real-time systems, providing us new ideas to build automaton from atomic propositions and data variables to trace formula. \textbf{Section 6.2.} uses bounded response time properties to describe requirements in the whole system, leading us to think about how to solve problems with real-time software thinking. \textbf{Fig. 3.} creates a decorated version of automaton, opening up new roads for us to consider how to verify the synchronization of various components in different layer. 
 
 Apart from the knowledge level, this practical training also bring me a new understanding of teamwork: use my own actions to inspire instead of complaining; accept other works of very different styles; establish common goals although everyone has different focus...
 
