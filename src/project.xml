@@ -833,7 +833,7 @@ clock GBTimer;
 		<transition>
 			<source ref="id63"/>
 			<target ref="id61"/>
-			<label kind="guard" x="187" y="93">GBTimer&gt;200 and not v6</label>
+			<label kind="guard" x="187" y="93">GBTimer == 200 and not v6</label>
 			<label kind="assignment" x="238" y="110">ErrStat:=4,
 c6:=0,
 v6:=true,
@@ -882,7 +882,7 @@ v16 = false</label>
 		<transition>
 			<source ref="id63"/>
 			<target ref="id61"/>
-			<label kind="guard" x="34" y="-204">GBTimer&gt;200 and v6</label>
+			<label kind="guard" x="34" y="-204">GBTimer == 200 and v6</label>
 			<label kind="assignment" x="76" y="-178">ErrStat:=4,
 v1 = false,
 v2 = false,
