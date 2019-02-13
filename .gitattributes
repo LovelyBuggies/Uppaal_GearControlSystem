@@ -1,7 +1,3 @@
 # Auto detect text files and perform LF normalization
 
-*.q linguist-language=xml
-*.xml linguist-language=xml
-*.tex linguist-language=LaTex
-
 * text=auto
